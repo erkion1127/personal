@@ -1,0 +1,21 @@
+비밀번호
+
+https://coupang.globalsharesequity.com/ko/Participant
+Global Share
+valkyrion
+Ecstasy123!@#
+
+
+데이터독 700
+추가금액 6000
+
+
+
+
+terms1
+terms2
+terms3
+
+
+alter table extem
+    modify extem_term text null after extem_banner;
