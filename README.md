@@ -11,11 +11,20 @@
 
 ```
 jslee27/
+├── personal/          # 개인 문서
+│   ├── family/        # 가족 관련
+│   ├── certificates/  # 증명서/자격증
+│   ├── financial/     # 세금/주식/은행
+│   ├── real-estate/   # 부동산 (목포, 광교 등)
+│   ├── health/        # 건강검진/의료
+│   ├── vehicle/       # 차량
+│   └── career/        # 이력서/면접
 ├── work/              # 업무 관련 문서
 │   ├── notes/         # 일반 노트
 │   ├── meetings/      # 회의록
 │   ├── reports/       # 보고서
-│   └── archive/       # 아카이브된 문서
+│   ├── archive/       # 아카이브된 문서
+│   └── settings/      # 개발 환경 설정
 ├── policies/          # MCP 서버용 정책 문서
 ├── references/        # 참고 자료
 └── templates/         # 문서 템플릿
@@ -35,7 +44,37 @@ cp templates/meeting-notes.md work/meetings/YYYY-MM-DD-meeting-title.md
 cp templates/decision-record.md work/notes/YYYY-MM-DD-decision-title.md
 ```
 
+## Claude AI 사용 규칙
+
+이 프로젝트는 Claude 등 AI 어시스턴트와 함께 문서를 관리합니다.
+
+### 중요 문서
+- **[CLAUDE_RULES.md](CLAUDE_RULES.md)**: Claude가 문서를 수정할 때 따라야 할 규칙
+- **[policies/document-management.md](policies/document-management.md)**: 문서 관리 정책
+
+### AI 사용 시 주의사항
+- 개인정보 보호 최우선
+- 문서 수정 전 항상 사용자 확인
+- 기존 폴더 구조 유지
+
 ## 정책 문서
 
 MCP 서버에서 참조할 수 있는 정책 문서는 `policies/` 디렉토리에 저장합니다.
 자세한 내용은 [policies/README.md](policies/README.md)를 참조하세요.
+
+## MCP 서버 연동
+
+```json
+{
+  "mcpServers": {
+    "jslee27-docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/ijeongseob/Documents/doc/jslee27"
+      ]
+    }
+  }
+}
+```
