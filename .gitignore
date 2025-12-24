@@ -1,0 +1,19 @@
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private files
+*.private.md
+*.private.*
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Logs
+*.log
