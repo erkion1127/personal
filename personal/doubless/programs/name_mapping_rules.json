@@ -1,0 +1,43 @@
+{
+  "description": "회원 이름 매핑 및 정규화 규칙",
+  "version": "1.0",
+  "last_updated": "2025-12-25",
+
+  "normalization_rules": {
+    "description": "급여 시스템 이름을 회원 DB 이름으로 변환하는 규칙",
+    "rules": [
+      {
+        "name": "이벤트 회원 접미사 제거",
+        "pattern": "E$",
+        "replacement": "",
+        "description": "이름 끝에 E가 붙은 경우 제거 (예: 김주홍E → 김주홍)",
+        "enabled": true
+      },
+      {
+        "name": "공백 제거",
+        "pattern": "\\s+",
+        "replacement": "",
+        "description": "이름 중간 공백 제거",
+        "enabled": true
+      }
+    ]
+  },
+
+  "known_mappings": {
+    "description": "알려진 이름 오타 및 매핑",
+    "mappings": {
+      "유혜나": "오혜나",
+      "박찬묵": "박강묵",
+      "손헤림": "손혜림",
+      "유현은": "유현우"
+    }
+  },
+
+  "fuzzy_match_threshold": 0.8,
+
+  "notes": [
+    "E 접미사: 이벤트 회원을 의미, 회원 DB 매칭 시 제거 필요",
+    "급여 시스템에 이름 입력 시 E를 붙이지 말고 정확한 이름 사용 권장",
+    "오타 발견 시 known_mappings에 추가하여 자동 매칭"
+  ]
+}
