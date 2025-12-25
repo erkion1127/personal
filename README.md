@@ -51,6 +51,18 @@ cp templates/decision-record.md work/notes/YYYY-MM-DD-decision-title.md
 - `personal/health/`: 건강검진 및 의료비 관련 문서
 - `personal/vehicle/`: 차량 관련 문서
 
+### Doubless 피트니스 관리 시스템
+
+`personal/doubless/` 디렉토리에는 다블레스 피트니스 센터의 회원 및 급여 관리 시스템이 포함되어 있습니다.
+
+자세한 시스템 구조, 사용 방법, 데이터베이스 스키마, 급여 분석 규칙 등은 [personal/doubless/프로젝트구조.md](personal/doubless/프로젝트구조.md)를 참조하세요.
+
+주요 기능:
+- Broj CRM 데이터 자동 다운로드 및 동기화
+- SQLite 기반 회원/회원권/수강권 통합 관리
+- 트레이너 급여 분석 및 이상 케이스 탐지
+- 월별 실적 리포트 자동 생성
+
 ## 정책 문서
 
 MCP 서버에서 참조할 수 있는 정책 문서는 `policies/` 디렉토리에 저장합니다.

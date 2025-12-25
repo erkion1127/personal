@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(tree:*)",
+      "Bash(pip3 install:*)",
+      "Bash(./venv/bin/python3:*)",
+      "Bash(tee:*)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/pip install beautifulsoup4)",
+      "Bash(python3:*)",
+      "Bash(./venv/bin/pip install:*)",
+      "Bash(sqlite3:*)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/membership_to_db.py)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/salary_analysis.py)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/check_leejunsoo.py:*)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/download_members.py)",
+      "Bash(awk '{if($0==\"\"\"\"\"\"\"\") print \"\"\"\"동기화/\"\"\"\"; else print \"\"\"\"동기화\"\"\"\" $0}')",
+      "Bash(cat:*)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/sync_to_db.py)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/create_new_db.py)",
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3:*)"
     ],
     "deny": [],
     "ask": []
