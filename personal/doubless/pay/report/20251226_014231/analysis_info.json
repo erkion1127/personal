@@ -1,0 +1,80 @@
+{
+  "analysis_id": "20251226_014231",
+  "analysis_time": "2025-12-26T01:42:31.154174",
+  "analysis_time_kr": "2025년 12월 26일 01시 42분 31초",
+  "year": 2025,
+  "months_analyzed": 6,
+  "monthly_summaries": [
+    {
+      "month": "6월",
+      "trainers": 3,
+      "members": 92,
+      "total_sessions": 398.0,
+      "total_salary": 6517200.0,
+      "total_revenue": 0,
+      "anomalies": 0,
+      "year": 2025
+    },
+    {
+      "month": "7월",
+      "trainers": 3,
+      "members": 84,
+      "total_sessions": 395.0,
+      "total_salary": 7715000.0,
+      "total_revenue": 0,
+      "anomalies": 28,
+      "year": 2025
+    },
+    {
+      "month": "8월",
+      "trainers": 5,
+      "members": 90,
+      "total_sessions": 444.0,
+      "total_salary": 8694006.86106,
+      "total_revenue": 0,
+      "anomalies": 25,
+      "year": 2025
+    },
+    {
+      "month": "9월",
+      "trainers": 5,
+      "members": 76,
+      "total_sessions": 396.0,
+      "total_salary": 8150001.71527,
+      "total_revenue": 0,
+      "anomalies": 16,
+      "year": 2025
+    },
+    {
+      "month": "10월",
+      "trainers": 5,
+      "members": 83,
+      "total_sessions": 350.0,
+      "total_salary": 6852005.48885,
+      "total_revenue": 0,
+      "anomalies": 22,
+      "year": 2025
+    },
+    {
+      "month": "11월",
+      "trainers": 4,
+      "members": 88,
+      "total_sessions": 375.0,
+      "total_salary": 6725405.1458,
+      "total_revenue": 0,
+      "anomalies": 23,
+      "year": 2025
+    }
+  ],
+  "files": {
+    "summary": "종합분석_20251226_014231.txt",
+    "monthly_reports": [
+      "2025년_6월_급여분석.txt",
+      "2025년_7월_급여분석.txt",
+      "2025년_8월_급여분석.txt",
+      "2025년_9월_급여분석.txt",
+      "2025년_10월_급여분석.txt",
+      "2025년_11월_급여분석.txt"
+    ]
+  }
+}

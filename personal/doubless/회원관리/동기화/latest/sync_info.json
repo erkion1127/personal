@@ -1,0 +1,11 @@
+{
+  "sync_id": "20251226_011226",
+  "sync_time": "2025-12-26T01:12:26.630097",
+  "sync_time_kr": "2025년 12월 26일 01시 12분 26초",
+  "success": true,
+  "files": {
+    "members": "members_sync_20251226_011226.json",
+    "tickets": "tickets_sync_20251226_011226.json",
+    "lesson_tickets": "lesson_tickets_sync_20251226_011226.json"
+  }
+}
