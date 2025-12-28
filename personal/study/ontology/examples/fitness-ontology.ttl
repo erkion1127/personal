@@ -1,0 +1,284 @@
+# 피트니스 온톨로지 예제
+# Doubless 피트니스 센터 도메인 모델
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fitness: <http://example.org/fitness#> .
+
+# ============================================
+# 클래스 정의
+# ============================================
+
+## 사람 관련
+fitness:Person rdf:type owl:Class ;
+    rdfs:label "사람"@ko .
+
+fitness:Trainer rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Person ;
+    rdfs:label "트레이너"@ko ;
+    rdfs:comment "PT 트레이너" .
+
+fitness:Member rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Person ;
+    rdfs:label "회원"@ko ;
+    rdfs:comment "피트니스 센터 회원" .
+
+## 운동 관련
+fitness:Exercise rdf:type owl:Class ;
+    rdfs:label "운동"@ko .
+
+fitness:StrengthExercise rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Exercise ;
+    rdfs:label "근력 운동"@ko .
+
+fitness:CardioExercise rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Exercise ;
+    rdfs:label "유산소 운동"@ko .
+
+fitness:FlexibilityExercise rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Exercise ;
+    rdfs:label "유연성 운동"@ko .
+
+## 장비 관련
+fitness:Equipment rdf:type owl:Class ;
+    rdfs:label "장비"@ko .
+
+fitness:MachineEquipment rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Equipment ;
+    rdfs:label "머신 장비"@ko .
+
+fitness:FreeWeight rdf:type owl:Class ;
+    rdfs:subClassOf fitness:Equipment ;
+    rdfs:label "프리웨이트"@ko .
+
+## 신체 부위
+fitness:MuscleGroup rdf:type owl:Class ;
+    rdfs:label "근육 그룹"@ko .
+
+## 세션
+fitness:TrainingSession rdf:type owl:Class ;
+    rdfs:label "트레이닝 세션"@ko .
+
+# ============================================
+# 객체 속성 (관계)
+# ============================================
+
+## 사람 관련 관계
+fitness:teaches rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Trainer ;
+    rdfs:range fitness:Member ;
+    rdfs:label "가르치다"@ko .
+
+fitness:trainedBy rdf:type owl:ObjectProperty ;
+    owl:inverseOf fitness:teaches ;
+    rdfs:domain fitness:Member ;
+    rdfs:range fitness:Trainer ;
+    rdfs:label "~에게 배우다"@ko .
+
+fitness:attends rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Member ;
+    rdfs:range fitness:TrainingSession ;
+    rdfs:label "참석하다"@ko .
+
+## 운동 관련 관계
+fitness:performs rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Person ;
+    rdfs:range fitness:Exercise ;
+    rdfs:label "수행하다"@ko .
+
+fitness:requires rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Exercise ;
+    rdfs:range fitness:Equipment ;
+    rdfs:label "필요로 하다"@ko .
+
+fitness:targets rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Exercise ;
+    rdfs:range fitness:MuscleGroup ;
+    rdfs:label "목표로 하다"@ko .
+
+fitness:specializes rdf:type owl:ObjectProperty ;
+    rdfs:domain fitness:Trainer ;
+    rdfs:range fitness:Exercise ;
+    rdfs:label "전문이다"@ko .
+
+# ============================================
+# 데이터 속성
+# ============================================
+
+fitness:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Person ;
+    rdfs:range xsd:string .
+
+fitness:hasAge rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Person ;
+    rdfs:range xsd:integer .
+
+fitness:hasExperience rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Trainer ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "경력 (년)"@ko .
+
+fitness:hasMembershipLevel rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Member ;
+    rdfs:range xsd:string ;
+    rdfs:comment "회원 등급: VIP, Regular, Basic"@ko .
+
+fitness:hasSessions rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Member ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "남은 세션 수"@ko .
+
+fitness:hasDuration rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Exercise ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "운동 시간 (분)"@ko .
+
+fitness:hasReps rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Exercise ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "반복 횟수"@ko .
+
+fitness:hasSets rdf:type owl:DatatypeProperty ;
+    rdfs:domain fitness:Exercise ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "세트 수"@ko .
+
+# ============================================
+# 신체 부위 인스턴스
+# ============================================
+
+fitness:Chest rdf:type fitness:MuscleGroup ;
+    rdfs:label "가슴"@ko .
+
+fitness:Back rdf:type fitness:MuscleGroup ;
+    rdfs:label "등"@ko .
+
+fitness:Legs rdf:type fitness:MuscleGroup ;
+    rdfs:label "다리"@ko .
+
+fitness:Shoulders rdf:type fitness:MuscleGroup ;
+    rdfs:label "어깨"@ko .
+
+fitness:Arms rdf:type fitness:MuscleGroup ;
+    rdfs:label "팔"@ko .
+
+fitness:Core rdf:type fitness:MuscleGroup ;
+    rdfs:label "코어"@ko .
+
+# ============================================
+# 장비 인스턴스
+# ============================================
+
+fitness:Barbell rdf:type fitness:FreeWeight ;
+    rdfs:label "바벨"@ko .
+
+fitness:Dumbbell rdf:type fitness:FreeWeight ;
+    rdfs:label "덤벨"@ko .
+
+fitness:Treadmill rdf:type fitness:MachineEquipment ;
+    rdfs:label "러닝머신"@ko .
+
+fitness:LegPress rdf:type fitness:MachineEquipment ;
+    rdfs:label "레그 프레스"@ko .
+
+fitness:CableMachine rdf:type fitness:MachineEquipment ;
+    rdfs:label "케이블 머신"@ko .
+
+# ============================================
+# 운동 인스턴스
+# ============================================
+
+fitness:BenchPress rdf:type fitness:StrengthExercise ;
+    rdfs:label "벤치 프레스"@ko ;
+    fitness:targets fitness:Chest ;
+    fitness:targets fitness:Arms ;
+    fitness:requires fitness:Barbell ;
+    fitness:hasSets 3 ;
+    fitness:hasReps 10 .
+
+fitness:Squat rdf:type fitness:StrengthExercise ;
+    rdfs:label "스쿼트"@ko ;
+    fitness:targets fitness:Legs ;
+    fitness:requires fitness:Barbell ;
+    fitness:hasSets 4 ;
+    fitness:hasReps 12 .
+
+fitness:Running rdf:type fitness:CardioExercise ;
+    rdfs:label "러닝"@ko ;
+    fitness:requires fitness:Treadmill ;
+    fitness:hasDuration 30 .
+
+fitness:Deadlift rdf:type fitness:StrengthExercise ;
+    rdfs:label "데드리프트"@ko ;
+    fitness:targets fitness:Back ;
+    fitness:targets fitness:Legs ;
+    fitness:requires fitness:Barbell ;
+    fitness:hasSets 3 ;
+    fitness:hasReps 8 .
+
+# ============================================
+# 트레이너 인스턴스
+# ============================================
+
+fitness:TrainerKim rdf:type fitness:Trainer ;
+    fitness:hasName "김철수" ;
+    fitness:hasAge 32 ;
+    fitness:hasExperience 8 ;
+    fitness:specializes fitness:BenchPress ;
+    fitness:specializes fitness:Squat .
+
+fitness:TrainerLee rdf:type fitness:Trainer ;
+    fitness:hasName "이영희" ;
+    fitness:hasAge 28 ;
+    fitness:hasExperience 5 ;
+    fitness:specializes fitness:Running ;
+    fitness:specializes fitness:Deadlift .
+
+# ============================================
+# 회원 인스턴스
+# ============================================
+
+fitness:MemberPark rdf:type fitness:Member ;
+    fitness:hasName "박민수" ;
+    fitness:hasAge 35 ;
+    fitness:hasMembershipLevel "VIP" ;
+    fitness:hasSessions 20 ;
+    fitness:trainedBy fitness:TrainerKim ;
+    fitness:performs fitness:BenchPress ;
+    fitness:performs fitness:Squat .
+
+fitness:MemberChoi rdf:type fitness:Member ;
+    fitness:hasName "최수정" ;
+    fitness:hasAge 29 ;
+    fitness:hasMembershipLevel "Regular" ;
+    fitness:hasSessions 15 ;
+    fitness:trainedBy fitness:TrainerLee ;
+    fitness:performs fitness:Running .
+
+fitness:MemberJung rdf:type fitness:Member ;
+    fitness:hasName "정다은" ;
+    fitness:hasAge 42 ;
+    fitness:hasMembershipLevel "VIP" ;
+    fitness:hasSessions 25 ;
+    fitness:trainedBy fitness:TrainerKim ;
+    fitness:performs fitness:Deadlift ;
+    fitness:performs fitness:Squat .
+
+# ============================================
+# 추론 가능한 지식 예시
+# ============================================
+
+# 1. MemberPark performs BenchPress
+#    BenchPress targets Chest
+#    → MemberPark는 가슴 운동을 한다
+
+# 2. TrainerKim specializes BenchPress
+#    MemberPark trainedBy TrainerKim
+#    MemberPark performs BenchPress
+#    → 전문성이 일치하는 매칭
+
+# 3. BenchPress requires Barbell
+#    MemberPark performs BenchPress
+#    → MemberPark는 바벨이 필요하다

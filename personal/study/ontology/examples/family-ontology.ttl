@@ -1,0 +1,183 @@
+# 가족 관계 온톨로지 예제
+# Turtle (Terse RDF Triple Language) 형식
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix family: <http://example.org/family#> .
+
+# ============================================
+# 클래스 정의 (Classes)
+# ============================================
+
+family:Person rdf:type owl:Class ;
+    rdfs:label "사람"@ko ;
+    rdfs:comment "모든 사람을 나타내는 클래스" .
+
+family:Male rdf:type owl:Class ;
+    rdfs:subClassOf family:Person ;
+    rdfs:label "남성"@ko .
+
+family:Female rdf:type owl:Class ;
+    rdfs:subClassOf family:Person ;
+    rdfs:label "여성"@ko .
+
+family:Parent rdf:type owl:Class ;
+    rdfs:subClassOf family:Person ;
+    rdfs:label "부모"@ko .
+
+family:Child rdf:type owl:Class ;
+    rdfs:subClassOf family:Person ;
+    rdfs:label "자녀"@ko .
+
+# ============================================
+# 객체 속성 (Object Properties)
+# ============================================
+
+# 부모 관계
+family:hasParent rdf:type owl:ObjectProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range family:Parent ;
+    rdfs:label "~의 부모는"@ko .
+
+# 자녀 관계 (hasParent의 역관계)
+family:hasChild rdf:type owl:ObjectProperty ;
+    owl:inverseOf family:hasParent ;
+    rdfs:domain family:Parent ;
+    rdfs:range family:Child ;
+    rdfs:label "~의 자녀는"@ko .
+
+# 배우자 관계
+family:hasSpouse rdf:type owl:ObjectProperty ,
+                          owl:SymmetricProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range family:Person ;
+    rdfs:label "~의 배우자는"@ko .
+
+# 형제/자매 관계
+family:hasSibling rdf:type owl:ObjectProperty ,
+                            owl:SymmetricProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range family:Person ;
+    rdfs:label "~의 형제자매는"@ko .
+
+# 조부모 관계
+family:hasGrandparent rdf:type owl:ObjectProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range family:Person ;
+    rdfs:label "~의 조부모는"@ko .
+
+# 손자/손녀 관계
+family:hasGrandchild rdf:type owl:ObjectProperty ;
+    owl:inverseOf family:hasGrandparent ;
+    rdfs:domain family:Person ;
+    rdfs:range family:Person ;
+    rdfs:label "~의 손자손녀는"@ko .
+
+# ============================================
+# 데이터 속성 (Data Properties)
+# ============================================
+
+family:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "이름"@ko .
+
+family:hasAge rdf:type owl:DatatypeProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range xsd:integer ;
+    rdfs:label "나이"@ko .
+
+family:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "출생년도"@ko .
+
+family:hasGender rdf:type owl:DatatypeProperty ;
+    rdfs:domain family:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "성별"@ko .
+
+# ============================================
+# 인스턴스 (Individuals) - 3세대 가족
+# ============================================
+
+## 할아버지, 할머니 (조부모 세대)
+family:GrandpaSmith rdf:type family:Male , family:Parent ;
+    family:hasName "Robert Smith" ;
+    family:hasAge 75 ;
+    family:hasBirthYear "1948"^^xsd:gYear ;
+    family:hasGender "male" ;
+    family:hasSpouse family:GrandmaSmith .
+
+family:GrandmaSmith rdf:type family:Female , family:Parent ;
+    family:hasName "Elizabeth Smith" ;
+    family:hasAge 73 ;
+    family:hasBirthYear "1950"^^xsd:gYear ;
+    family:hasGender "female" ;
+    family:hasSpouse family:GrandpaSmith .
+
+## 부모 세대
+family:John rdf:type family:Male , family:Parent ;
+    family:hasName "John Smith" ;
+    family:hasAge 45 ;
+    family:hasBirthYear "1978"^^xsd:gYear ;
+    family:hasGender "male" ;
+    family:hasParent family:GrandpaSmith ;
+    family:hasParent family:GrandmaSmith ;
+    family:hasSpouse family:Mary .
+
+family:Mary rdf:type family:Female , family:Parent ;
+    family:hasName "Mary Johnson-Smith" ;
+    family:hasAge 43 ;
+    family:hasBirthYear "1980"^^xsd:gYear ;
+    family:hasGender "female" ;
+    family:hasSpouse family:John .
+
+family:Jane rdf:type family:Female ;
+    family:hasName "Jane Smith" ;
+    family:hasAge 42 ;
+    family:hasBirthYear "1981"^^xsd:gYear ;
+    family:hasGender "female" ;
+    family:hasParent family:GrandpaSmith ;
+    family:hasParent family:GrandmaSmith ;
+    family:hasSibling family:John .
+
+## 자녀 세대
+family:Bob rdf:type family:Male , family:Child ;
+    family:hasName "Bob Smith" ;
+    family:hasAge 20 ;
+    family:hasBirthYear "2003"^^xsd:gYear ;
+    family:hasGender "male" ;
+    family:hasParent family:John ;
+    family:hasParent family:Mary .
+
+family:Alice rdf:type family:Female , family:Child ;
+    family:hasName "Alice Smith" ;
+    family:hasAge 18 ;
+    family:hasBirthYear "2005"^^xsd:gYear ;
+    family:hasGender "female" ;
+    family:hasParent family:John ;
+    family:hasParent family:Mary ;
+    family:hasSibling family:Bob .
+
+family:Charlie rdf:type family:Male , family:Child ;
+    family:hasName "Charlie Smith" ;
+    family:hasAge 15 ;
+    family:hasBirthYear "2008"^^xsd:gYear ;
+    family:hasGender "male" ;
+    family:hasParent family:John ;
+    family:hasParent family:Mary ;
+    family:hasSibling family:Bob ;
+    family:hasSibling family:Alice .
+
+# ============================================
+# 추론 가능한 지식 (Reasoner를 통해 자동 유도)
+# ============================================
+
+# 명시적으로 정의하지 않았지만 추론 가능:
+# 1. Bob hasGrandparent GrandpaSmith (hasParent의 체인)
+# 2. GrandpaSmith hasGrandchild Bob (inverseOf)
+# 3. Bob hasSibling Alice, Charlie (같은 부모)
+# 4. John hasChild Bob, Alice, Charlie (hasParent의 역)
