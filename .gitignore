@@ -17,3 +17,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Email configuration (contains sensitive credentials)
+personal/email/email_config.json
