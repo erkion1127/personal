@@ -8,5 +8,15 @@
     "total_sessions": 2358.0,
     "total_salary": 44653619.21098,
     "total_anomalies": 114
+  },
+  {
+    "analysis_id": "20260111_024609",
+    "analysis_time": "2026-01-11T02:46:09.365686",
+    "analysis_time_kr": "2026년 01월 11일 02시 46분 09초",
+    "year": 2025,
+    "months_count": 7,
+    "total_sessions": 2712.0,
+    "total_salary": 50964407.890225284,
+    "total_anomalies": 128
   }
 ]

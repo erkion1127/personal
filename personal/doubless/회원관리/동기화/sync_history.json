@@ -30,5 +30,37 @@
       "tickets",
       "lesson_tickets"
     ]
+  },
+  {
+    "sync_id": "20260107_232829",
+    "sync_time": "2026-01-07T23:28:29.749967",
+    "sync_time_kr": "2026년 01월 07일 23시 28분 29초",
+    "success": true,
+    "record_counts": {
+      "members": 1084,
+      "tickets": 1391,
+      "lesson_tickets": 318
+    },
+    "files": [
+      "members",
+      "tickets",
+      "lesson_tickets"
+    ]
+  },
+  {
+    "sync_id": "20260110_165339",
+    "sync_time": "2026-01-10T16:53:39.250573",
+    "sync_time_kr": "2026년 01월 10일 16시 53분 39초",
+    "success": true,
+    "record_counts": {
+      "members": 1090,
+      "tickets": 1401,
+      "lesson_tickets": 323
+    },
+    "files": [
+      "members",
+      "tickets",
+      "lesson_tickets"
+    ]
   }
 ]

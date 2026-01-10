@@ -194,7 +194,7 @@ def main():
     """메인 함수"""
     # DB 경로 설정
     base_dir = Path(__file__).parent.parent
-    db_file = base_dir / "data" / "members.db"
+    db_file = base_dir / "data" / "doubless.db"
 
     if not db_file.exists():
         print(f"❌ 데이터베이스를 찾을 수 없습니다: {db_file}")

@@ -16,8 +16,8 @@ from collections import defaultdict
 def connect_dbs():
     """데이터베이스 연결"""
     base_dir = Path(__file__).parent.parent
-    salary_db = base_dir / "data" / "salary.db"
-    members_db = base_dir / "data" / "members.db"
+    salary_db = base_dir / "data" / "doubless.db"
+    members_db = base_dir / "data" / "doubless.db"
 
     salary_conn = sqlite3.connect(salary_db)
     members_conn = sqlite3.connect(members_db)

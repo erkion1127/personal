@@ -7,6 +7,7 @@ Broj CRM 회원정보 다운로드 프로그램
 
 import requests
 import json
+import yaml
 from pathlib import Path
 from datetime import datetime
 import sys
@@ -25,23 +26,18 @@ class BrojMemberDownloader:
         self.sync_time = None  # 동기화 시작 시간
 
     def _load_config(self, config_file):
-        """설정 파일 로드"""
-        config = {}
+        """설정 파일 로드 (YAML 형식)"""
         with open(config_file, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if ':' in line:
-                    key, value = line.split(':', 1)
-                    key = key.strip()
-                    value = value.strip()
-                    if key == 'url':
-                        config['url'] = value
-                    elif key == 'id':
-                        config['id'] = value
-                    elif key == 'pwd':
-                        config['pwd'] = value
-                    elif key == 'jgroup_key':
-                        config['jgroup_key'] = value
+            yaml_config = yaml.safe_load(f)
+
+        # broj_crm 섹션에서 설정 추출
+        crm_config = yaml_config.get('broj_crm', {})
+        config = {
+            'url': crm_config.get('url', ''),
+            'id': crm_config.get('id', ''),
+            'pwd': crm_config.get('pwd', ''),
+            'jgroup_key': str(crm_config.get('jgroup_key', ''))
+        }
 
         print(f"   설정 로드: ID={config.get('id')}, PWD={'*' * len(config.get('pwd', ''))}자")
         return config
@@ -617,7 +613,7 @@ def main():
 
     # 경로 설정
     base_dir = Path(__file__).parent.parent
-    config_file = base_dir / "config.md"
+    config_file = base_dir.parent / "config" / "config.yml"
     sync_base_dir = base_dir / "회원관리" / "동기화"
 
     # 동기화 기본 디렉토리 생성

@@ -11,7 +11,7 @@ from collections import defaultdict
 def check_leejunsoo_anomalies():
     """이준수 트레이너 세션 이상 내역 체크"""
     base_dir = Path(__file__).parent.parent
-    salary_db = base_dir / "data" / "salary.db"
+    salary_db = base_dir / "data" / "doubless.db"
 
     conn = sqlite3.connect(salary_db)
     cursor = conn.cursor()

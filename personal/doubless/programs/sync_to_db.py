@@ -12,6 +12,19 @@ from pathlib import Path
 from datetime import datetime
 import sys
 
+
+def ms_to_datetime(ms_timestamp):
+    """밀리초 타임스탬프를 datetime 문자열로 변환"""
+    if ms_timestamp is None:
+        return None
+    try:
+        # 밀리초를 초로 변환하여 datetime 생성
+        dt = datetime.fromtimestamp(ms_timestamp / 1000)
+        return dt.strftime('%Y-%m-%d %H:%M:%S')
+    except (ValueError, TypeError, OSError):
+        return None
+
+
 class BrojDBSync:
     """Broj CRM 데이터 DB 동기화"""
 
@@ -101,7 +114,7 @@ class BrojDBSync:
                     member.get('jgjm_member_name'),
                     member.get('jgjm_member_phone_number'),
                     member.get('jgjm_member_sex'),
-                    member.get('jgjm_member_birth_dttm'),
+                    ms_to_datetime(member.get('jgjm_member_birth_dttm')),
                     member.get('jgjm_address'),
                     member.get('jgjm_attendance_number'),
                     member.get('jgjm_remarks'),
@@ -111,12 +124,12 @@ class BrojDBSync:
                     member.get('exercise_purpose'),
                     member.get('visit_route'),
                     member.get('is_subscriber', False),
-                    member.get('created_dttm'),
-                    member.get('first_ticket_purchase_dttm'),
-                    member.get('last_ticket_purchase_dttm'),
-                    member.get('last_attendance'),
-                    member.get('ticket_start'),
-                    member.get('ticket_end'),
+                    ms_to_datetime(member.get('created_dttm')),
+                    ms_to_datetime(member.get('first_ticket_purchase_dttm')),
+                    ms_to_datetime(member.get('last_ticket_purchase_dttm')),
+                    ms_to_datetime(member.get('last_attendance')),
+                    ms_to_datetime(member.get('ticket_start')),
+                    ms_to_datetime(member.get('ticket_end')),
                     member.get('left_days'),
                     sync_id
                 ))
@@ -183,9 +196,9 @@ class BrojDBSync:
                     ticket.get('jtd_key'),
                     ticket.get('jtd_name'),
                     ticket.get('jtd_memo'),
-                    ticket.get('jtd_started_dttm'),
-                    ticket.get('jtd_closed_dttm'),
-                    ticket.get('created'),
+                    ms_to_datetime(ticket.get('jtd_started_dttm')),
+                    ms_to_datetime(ticket.get('jtd_closed_dttm')),
+                    ms_to_datetime(ticket.get('created')),
                     ticket.get('jgjm_key') or customer.get('jgjm_key'),
                     ticket.get('jgjm_member_name') or customer.get('jgjm_member_name'),
                     ticket.get('jgjm_member_phone_number') or customer.get('jgjm_member_phone_number'),
@@ -274,9 +287,9 @@ class BrojDBSync:
                     ticket.get('jglesson_ticket_point'),
                     ticket.get('jglesson_origin_ticket_point'),
                     ticket.get('jglesson_ticket_origin_point'),
-                    ticket.get('jglesson_ticket_started_dttm'),
-                    ticket.get('jglesson_ticket_closed_dttm'),
-                    ticket.get('last_lesson_dttm'),
+                    ms_to_datetime(ticket.get('jglesson_ticket_started_dttm')),
+                    ms_to_datetime(ticket.get('jglesson_ticket_closed_dttm')),
+                    ms_to_datetime(ticket.get('last_lesson_dttm')),
                     ticket.get('jgjm_key'),
                     ticket.get('jgjm_member_name'),
                     ticket.get('jgjm_member_phone_number'),
@@ -357,7 +370,7 @@ def main():
 
     # 경로 설정
     base_dir = Path(__file__).parent.parent
-    db_path = base_dir / "data" / "members.db"
+    db_path = base_dir / "data" / "doubless.db"
     sync_dir = base_dir / "회원관리" / "동기화" / "latest"
 
     # DB 동기화 객체 생성

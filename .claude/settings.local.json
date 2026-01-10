@@ -20,7 +20,10 @@
       "Bash(cat:*)",
       "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/sync_to_db.py)",
       "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3 /Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/create_new_db.py)",
-      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3:*)"
+      "Bash(/Users/ijeongseob/IdeaProjects/jslee27/personal/doubless/programs/venv/bin/python3:*)",
+      "Bash(ls:*)",
+      "Bash(/Users/valkyrion/IdeaProjects/personal/personal/doubless/programs/venv/bin/python3:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

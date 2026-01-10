@@ -297,7 +297,7 @@ def main():
 
     # 경로 설정
     base_dir = Path(__file__).parent.parent
-    db_file = base_dir / "data" / "members.db"
+    db_file = base_dir / "data" / "doubless.db"
     pay_dir = base_dir / "pay" / "2025"
 
     # 회원 DB 로드

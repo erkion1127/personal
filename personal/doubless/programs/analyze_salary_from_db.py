@@ -594,8 +594,8 @@ def main():
 
     # 경로 설정
     base_dir = Path(__file__).parent.parent
-    salary_db = base_dir / "data" / "salary.db"
-    members_db = base_dir / "data" / "members.db"
+    salary_db = base_dir / "data" / "doubless.db"
+    members_db = base_dir / "data" / "doubless.db"
 
     # 버저닝된 보고서 디렉토리 생성
     report_dir, timestamp = create_versioned_report_dir(base_dir)
