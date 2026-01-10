@@ -1,0 +1,17 @@
+# Doubless 프로젝트 설정
+
+# Broj CRM 설정
+broj_crm:
+  url: https://crm.broj.co.kr/
+  id: doubless
+  pwd: doubless
+  jgroup_key: "533109104"
+
+# 데이터베이스 설정
+database:
+  path: data/doubless.db
+
+# 동기화 설정
+sync:
+  output_dir: 회원관리/동기화
+  page_size: 1000

@@ -1,0 +1,91 @@
+{
+  "analysis_id": "20260111_024609",
+  "analysis_time": "2026-01-11T02:46:09.365686",
+  "analysis_time_kr": "2026년 01월 11일 02시 46분 09초",
+  "year": 2025,
+  "months_analyzed": 7,
+  "monthly_summaries": [
+    {
+      "month": "6월",
+      "trainers": 3,
+      "members": 92,
+      "total_sessions": 412.0,
+      "total_salary": 6758800.0,
+      "total_revenue": 40.45,
+      "anomalies": 0,
+      "year": 2025
+    },
+    {
+      "month": "7월",
+      "trainers": 3,
+      "members": 84,
+      "total_sessions": 426.0,
+      "total_salary": 8375000.0,
+      "total_revenue": 44.3,
+      "anomalies": 28,
+      "year": 2025
+    },
+    {
+      "month": "8월",
+      "trainers": 5,
+      "members": 90,
+      "total_sessions": 458.0,
+      "total_salary": 9000006.86106,
+      "total_revenue": 44.8,
+      "anomalies": 24,
+      "year": 2025
+    },
+    {
+      "month": "9월",
+      "trainers": 5,
+      "members": 76,
+      "total_sessions": 396.0,
+      "total_salary": 8150001.71527,
+      "total_revenue": 38.0,
+      "anomalies": 15,
+      "year": 2025
+    },
+    {
+      "month": "10월",
+      "trainers": 5,
+      "members": 83,
+      "total_sessions": 355.0,
+      "total_salary": 6932005.48885,
+      "total_revenue": 38.65,
+      "anomalies": 22,
+      "year": 2025
+    },
+    {
+      "month": "11월",
+      "trainers": 4,
+      "members": 88,
+      "total_sessions": 375.0,
+      "total_salary": 6725405.1458,
+      "total_revenue": 40.4,
+      "anomalies": 23,
+      "year": 2025
+    },
+    {
+      "month": "12월",
+      "trainers": 4,
+      "members": 83,
+      "total_sessions": 290.0,
+      "total_salary": 5023188.679245283,
+      "total_revenue": 38.7,
+      "anomalies": 16,
+      "year": 2025
+    }
+  ],
+  "files": {
+    "summary": "종합분석_20260111_024609.txt",
+    "monthly_reports": [
+      "2025년_6월_급여분석.txt",
+      "2025년_7월_급여분석.txt",
+      "2025년_8월_급여분석.txt",
+      "2025년_9월_급여분석.txt",
+      "2025년_10월_급여분석.txt",
+      "2025년_11월_급여분석.txt",
+      "2025년_12월_급여분석.txt"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "sync_id": "20260107_232829",
+  "sync_time": "2026-01-07T23:28:29.749967",
+  "sync_time_kr": "2026년 01월 07일 23시 28분 29초",
+  "success": true,
+  "files": {
+    "members": "members_sync_20260107_232829.json",
+    "tickets": "tickets_sync_20260107_232829.json",
+    "lesson_tickets": "lesson_tickets_sync_20260107_232829.json"
+  }
+}
