@@ -1,0 +1,18 @@
+# FastAPI
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# Database
+sqlmodel>=0.0.14
+aiosqlite>=0.19.0
+
+# HTTP Client
+httpx>=0.26.0
+
+# Settings
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.0
+
+# Dev
+pytest>=7.4.0
+pytest-asyncio>=0.23.0

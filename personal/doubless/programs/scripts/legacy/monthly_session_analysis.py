@@ -247,8 +247,14 @@ class MonthlySessionAnalyzer:
         """, (year, prev_month, year, curr_month))
         return cursor.fetchall()
 
-    def generate_report(self, year, output_file=None):
-        """종합 분석 보고서 생성"""
+    def generate_report(self, year, output_file=None, recent_months=None):
+        """종합 분석 보고서 생성
+
+        Args:
+            year: 분석 연도
+            output_file: 출력 파일 경로
+            recent_months: 최근 N개월만 분석 (None이면 전체)
+        """
         if output_file:
             f = open(output_file, 'w', encoding='utf-8')
         else:
@@ -258,6 +264,11 @@ class MonthlySessionAnalyzer:
             f.write(text + '\n')
 
         months = self.get_available_months(year)
+
+        # 최근 N개월만 필터링
+        if recent_months and recent_months < len(months):
+            months = months[-recent_months:]
+
         trainer_status = self.get_trainer_status()
 
         write('=' * 100)
@@ -414,8 +425,24 @@ class MonthlySessionAnalyzer:
 
 
 def main():
+    import argparse
+    import shutil
+
+    parser = argparse.ArgumentParser(description='월별 세션 정합성 분석')
+    parser.add_argument('-m', '--months', type=int, default=None,
+                        help='최근 N개월만 분석 (기본값: 전체)')
+    parser.add_argument('-y', '--year', type=int, default=2025,
+                        help='분석 연도 (기본값: 2025)')
+    args = parser.parse_args()
+
+    recent_months = args.months
+    year = args.year
+
     print('=' * 80)
-    print('월별 세션 정합성 분석')
+    if recent_months:
+        print(f'월별 세션 정합성 분석 (최근 {recent_months}개월)')
+    else:
+        print('월별 세션 정합성 분석 (전체)')
     print('=' * 80)
 
     base_dir = Path(__file__).parent.parent
@@ -430,27 +457,185 @@ def main():
     try:
         analyzer.connect()
 
-        # 보고서 저장 경로
-        report_dir = base_dir / 'pay' / 'report' / 'session_analysis'
-        report_dir.mkdir(parents=True, exist_ok=True)
+        # 분석 실행 시간
+        analysis_time = datetime.now()
+        analysis_id = analysis_time.strftime('%Y%m%d_%H%M%S')
 
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        report_file = report_dir / f'session_analysis_{timestamp}.txt'
+        # 보고서 기본 경로
+        report_base_dir = base_dir / 'pay' / 'report' / 'session_analysis'
 
-        print(f'\n📊 분석 시작...')
-        print(f'📁 저장 위치: {report_file}')
+        # 분석 폴더 생성 (타임스탬프)
+        if recent_months:
+            analysis_dir = report_base_dir / f'{analysis_id}_{recent_months}m'
+        else:
+            analysis_dir = report_base_dir / analysis_id
+        analysis_dir.mkdir(parents=True, exist_ok=True)
 
-        analyzer.generate_report(year=2025, output_file=report_file)
+        # 분석 대상 월 조회
+        all_months = analyzer.get_available_months(year)
+        if recent_months and recent_months < len(all_months):
+            target_months = all_months[-recent_months:]
+        else:
+            target_months = all_months
 
-        print(f'\n✅ 분석 완료: {report_file}')
+        print(f'\n📊 분석 대상: {len(target_months)}개월 ({target_months[0]} ~ {target_months[-1]})')
+        print(f'📁 저장 폴더: {analysis_dir}')
 
-        # latest 심볼릭 링크 또는 복사
-        latest_file = report_dir / 'latest_analysis.txt'
-        if latest_file.exists():
-            latest_file.unlink()
-        import shutil
-        shutil.copy(report_file, latest_file)
-        print(f'✅ latest_analysis.txt 업데이트 완료')
+        # 월별 개별 리포트 생성
+        trainer_status = analyzer.get_trainer_status()
+        monthly_summaries = []
+
+        for i, month in enumerate(target_months):
+            print(f'\n▶ {year}년 {month} 분석 중...')
+
+            month_file = analysis_dir / f'{year}년_{month}_세션분석.txt'
+
+            with open(month_file, 'w', encoding='utf-8') as f:
+                f.write('=' * 100 + '\n')
+                f.write(f'{year}년 {month} 세션 정합성 분석 보고서\n')
+                f.write('=' * 100 + '\n')
+                f.write(f'생성일시: {analysis_time.strftime("%Y-%m-%d %H:%M:%S")}\n\n')
+
+                # 해당 월 트레이너 실적
+                f.write('=' * 100 + '\n')
+                f.write(f'[1. {month} 트레이너 실적]\n')
+                f.write('=' * 100 + '\n\n')
+
+                summary = analyzer.get_monthly_summary(year, month)
+                f.write(f'{"트레이너":>8} {"상태":>6} {"회원수":>8} {"진행세션":>10} {"수업료":>14}\n')
+                f.write('-' * 100 + '\n')
+
+                month_sessions = 0
+                month_tuition = 0
+                for row in summary:
+                    trainer = row['트레이너']
+                    status = trainer_status.get(trainer, {}).get('status', '?')
+                    sessions = row['진행세션'] or 0
+                    tuition = row['수업료'] or 0
+                    month_sessions += sessions
+                    month_tuition += tuition
+                    f.write(f'{trainer:>8} {status:>6} {row["회원수"]:>8} {sessions:>10.0f} {tuition:>14,.0f}\n')
+
+                # 이전 월과 비교 (첫 월이 아닌 경우)
+                if i > 0:
+                    prev_month = target_months[i-1]
+                    f.write(f'\n\n{"=" * 100}\n')
+                    f.write(f'[2. {prev_month} → {month} 비교]\n')
+                    f.write('=' * 100 + '\n')
+
+                    analysis = analyzer.analyze_session_overflow(year, prev_month, month)
+
+                    # 미설명 초과
+                    unexplained = [o for o in analysis['overflow'] if not o['explained']]
+                    if unexplained:
+                        f.write(f'\n⚠️ 잔여세션 초과 진행 (PT 등록으로 설명 안됨) - {len(unexplained)}건\n')
+                        f.write('-' * 100 + '\n')
+                        for o in sorted(unexplained, key=lambda x: -x['overflow'])[:15]:
+                            f.write(f'  {o["trainer"]} - {o["member"]}: 잔여 {o["prev_remain"]:.0f} → {o["curr_session"]:.0f}세션 진행 (+{o["overflow"]:.0f})\n')
+
+                    # PT 설명됨
+                    explained = [o for o in analysis['overflow'] if o['explained']]
+                    if explained:
+                        f.write(f'\n✅ 잔여세션 초과 진행 (PT 등록으로 설명됨) - {len(explained)}건\n')
+                        f.write('-' * 100 + '\n')
+                        for o in explained[:10]:
+                            pt_details = ', '.join([f"{p['type']}({p['count']}회)" for p in o['pt_added']]) if o['pt_added'] else '등록세션 증가'
+                            f.write(f'  {o["trainer"]} - {o["member"]}: {o["prev_remain"]:.0f} → {o["curr_session"]:.0f}세션 ({pt_details})\n')
+
+                    # 잔여 불일치
+                    if analysis['remain_mismatch']:
+                        f.write(f'\n⚠️ 잔여세션 계산 불일치 - {len(analysis["remain_mismatch"])}건\n')
+                        f.write('-' * 100 + '\n')
+                        f.write(f'{"트레이너":>8} {"회원명":>10} {"전월잔여":>8} {"당월진행":>8} {"예상":>8} {"실제":>8} {"차이":>6}\n')
+                        f.write('-' * 100 + '\n')
+                        for m in sorted(analysis['remain_mismatch'], key=lambda x: abs(x['diff']), reverse=True)[:15]:
+                            f.write(f'{m["trainer"]:>8} {m["member"]:>10} {m["prev_remain"]:>8.0f} {m["curr_session"]:>8.0f} {m["expected_remain"]:>8.0f} {m["actual_remain"]:>8.0f} {m["diff"]:>+6.0f}\n')
+
+                    # 누락 회원
+                    missing = analyzer.analyze_missing_members(year, prev_month, month)
+                    active_missing = [m for m in missing if trainer_status.get(m['트레이너'], {}).get('status') == '근무']
+                    if active_missing:
+                        f.write(f'\n⚠️ {prev_month}에 있었는데 {month}에 없는 회원 - {len(active_missing)}건\n')
+                        f.write('-' * 100 + '\n')
+                        for m in active_missing[:10]:
+                            f.write(f'  {m["트레이너"]} - {m["회원명"]}: {prev_month} {m["당월진행세션"]:.0f}세션, {m["당월수업료"]:,.0f}원\n')
+
+                    # 세션 급감
+                    drops = analyzer.analyze_session_drop(year, prev_month, month)
+                    if drops:
+                        f.write(f'\n📉 세션 급감 (50% 이상 감소) - {len(drops)}건\n')
+                        f.write('-' * 100 + '\n')
+                        for d in drops[:10]:
+                            diff = (d['prev_session'] or 0) - (d['curr_session'] or 0)
+                            f.write(f'  {d["트레이너"]} - {d["회원명"]}: {d["prev_session"]:.0f} → {d["curr_session"]:.0f} (↓{diff:.0f})\n')
+
+                    # 복귀 회원
+                    returned = analyzer.analyze_returned_members(year, prev_month, month)
+                    if returned:
+                        f.write(f'\n📈 {prev_month} 0세션 → {month} 복귀 - {len(returned)}건\n')
+                        f.write('-' * 100 + '\n')
+                        for r in returned[:10]:
+                            f.write(f'  {r["트레이너"]} - {r["회원명"]}: {r["당월진행세션"]:.0f}세션\n')
+
+                f.write('\n' + '=' * 100 + '\n')
+                f.write('보고서 생성 완료\n')
+                f.write('=' * 100 + '\n')
+
+            monthly_summaries.append({
+                'month': month,
+                'sessions': month_sessions,
+                'tuition': month_tuition
+            })
+            print(f'   ✅ {month_file.name} 생성 완료')
+
+        # 종합 리포트 생성
+        print(f'\n▶ 종합 보고서 생성 중...')
+        if recent_months:
+            summary_file = analysis_dir / f'종합분석_{recent_months}m_{analysis_id}.txt'
+        else:
+            summary_file = analysis_dir / f'종합분석_{analysis_id}.txt'
+
+        analyzer.generate_report(year=year, output_file=summary_file, recent_months=recent_months)
+        print(f'   ✅ {summary_file.name} 생성 완료')
+
+        # 메타데이터 저장
+        metadata = {
+            'analysis_id': analysis_id,
+            'analysis_time': analysis_time.isoformat(),
+            'year': year,
+            'recent_months': recent_months,
+            'months_analyzed': len(target_months),
+            'month_range': f'{target_months[0]} ~ {target_months[-1]}',
+            'monthly_summaries': monthly_summaries
+        }
+
+        metadata_file = analysis_dir / 'analysis_info.json'
+        with open(metadata_file, 'w', encoding='utf-8') as f:
+            json.dump(metadata, f, ensure_ascii=False, indent=2)
+        print(f'   ✅ analysis_info.json 생성 완료')
+
+        # latest 폴더 업데이트
+        latest_dir = report_base_dir / 'latest'
+        if latest_dir.exists():
+            shutil.rmtree(latest_dir)
+        latest_dir.mkdir(parents=True, exist_ok=True)
+
+        for file_path in analysis_dir.glob('*'):
+            if file_path.is_file():
+                shutil.copy2(file_path, latest_dir / file_path.name)
+        print(f'\n✅ latest 폴더 업데이트 완료')
+
+        # 최종 결과
+        print('\n' + '=' * 80)
+        print('분석 완료')
+        print('=' * 80)
+        print(f'\n생성된 파일:')
+        print(f'  - 월별 리포트: {len(monthly_summaries)}개')
+        print(f'  - 종합 리포트: 1개')
+        print(f'  - 메타데이터: 1개')
+        print(f'\n저장 위치:')
+        print(f'  - 분석 폴더: {analysis_dir}')
+        print(f'  - 최신 폴더: {latest_dir}')
 
     finally:
         analyzer.close()

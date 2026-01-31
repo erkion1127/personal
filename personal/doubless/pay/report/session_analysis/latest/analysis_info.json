@@ -1,0 +1,25 @@
+{
+  "analysis_id": "20260111_032054",
+  "analysis_time": "2026-01-11T03:20:54.073712",
+  "year": 2025,
+  "recent_months": 3,
+  "months_analyzed": 3,
+  "month_range": "10월 ~ 12월",
+  "monthly_summaries": [
+    {
+      "month": "10월",
+      "sessions": 355.0,
+      "tuition": 6932005.48885
+    },
+    {
+      "month": "11월",
+      "sessions": 375.0,
+      "tuition": 6725405.1458
+    },
+    {
+      "month": "12월",
+      "sessions": 298.0,
+      "tuition": 5139988.6792399995
+    }
+  ]
+}

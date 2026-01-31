@@ -44,9 +44,11 @@ def read_excel_file(file_path):
             # 빈 행 제거
             df = df.dropna(how='all')
 
-            # NO. 컬럼이 숫자인 행만 필터링 (실제 데이터 행)
-            if 'NO.' in df.columns:
-                df = df[pd.to_numeric(df['NO.'], errors='coerce').notna()]
+            # 회원명 컬럼 찾기 - NO 컬럼 대신 회원명 기준으로 필터링
+            col_member = find_column_name(df.columns, ['회원명', '이름', '회원'])
+            if col_member:
+                # 회원명이 있는 행만 필터링 (NO 컬럼은 무시)
+                df = df[df[col_member].notna() & (df[col_member].astype(str).str.strip() != '')]
 
             all_data[sheet_name] = df
             print(f"   - [{sheet_name}] {len(df)}건")
