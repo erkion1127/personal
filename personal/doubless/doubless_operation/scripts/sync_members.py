@@ -21,24 +21,24 @@ from app.services.broj_client import BrojClient
 
 async def sync_members():
     """CRM에서 회원 데이터를 가져와 로컬 DB에 저장"""
-    print("=" * 50)
-    print("회원 동기화 시작")
-    print("=" * 50)
+    print("=" * 50, flush=True)
+    print("회원 동기화 시작", flush=True)
+    print("=" * 50, flush=True)
 
     try:
         # CRM 로그인
-        print("\n[1/3] CRM 로그인 중...")
+        print("\n[1/3] CRM 로그인 중...", flush=True)
         client = BrojClient()
         await client.login()
-        print("      로그인 성공")
+        print("      로그인 성공", flush=True)
 
         # 회원 데이터 가져오기
-        print("\n[2/3] 회원 데이터 가져오는 중...")
+        print("\n[2/3] 회원 데이터 가져오는 중...", flush=True)
         members_data = await client.fetch_members()
-        print(f"      {len(members_data)}명 조회됨")
+        print(f"      {len(members_data)}명 조회됨", flush=True)
 
         # DB에 저장
-        print("\n[3/3] 로컬 DB에 저장 중...")
+        print("\n[3/3] 로컬 DB에 저장 중...", flush=True)
         with Session(engine) as session:
             # 기존 데이터 삭제
             session.exec(delete(MemberCache))
@@ -69,7 +69,10 @@ async def sync_members():
         return count
 
     except Exception as e:
+        import traceback
         print(f"\n오류 발생: {e}")
+        print(f"오류 타입: {type(e).__name__}")
+        traceback.print_exc()
         return 0
 
 
